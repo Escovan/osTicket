@@ -50,6 +50,8 @@ if (osTicket::is_ie())
     <link type="text/css" rel="stylesheet" href="<?php echo ROOT_PATH; ?>css/select2.min.css">
     <link type="text/css" rel="stylesheet" href="<?php echo ROOT_PATH; ?>css/rtl.css"/>
     <link type="text/css" rel="stylesheet" href="<?php echo ROOT_PATH ?>scp/css/translatable.css"/>
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="<?php echo ASSETS_PATH; ?>css/tailwind-output.css">
     <!-- Favicons -->
     <link rel="icon" type="image/png" href="<?php echo ROOT_PATH ?>images/oscar-favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="<?php echo ROOT_PATH ?>images/oscar-favicon-16x16.png" sizes="16x16" />
@@ -60,8 +62,8 @@ if (osTicket::is_ie())
     }
     ?>
 </head>
-<body>
-<div id="container">
+<body class="bg-gray-100">
+<div id="container" class="w-full max-w-screen-xl mx-auto px-4 md:px-0 bg-white shadow-lg my-4 p-4 rounded-lg">
     <?php
     if($ost->getError())
         echo sprintf('<div id="error_bar">%s</div>', $ost->getError());
@@ -70,8 +72,12 @@ if (osTicket::is_ie())
     elseif($ost->getNotice())
         echo sprintf('<div id="notice_bar">%s</div>', $ost->getNotice());
     ?>
-    <div id="header">
-        <p id="info" class="pull-right no-pjax"><?php echo sprintf(__('Welcome, %s.'), '<strong>'.$thisstaff->getFirstName().'</strong>'); ?>
+    <div id="header" class="flex flex-col md:flex-row items-center justify-between py-4 border-b border-gray-200">
+        <a href="<?php echo ROOT_PATH ?>scp/index.php" class="no-pjax mb-4 md:mb-0 order-1 md:order-1" id="logo">
+            <span class="valign-helper"></span>
+            <img src="<?php echo ROOT_PATH ?>scp/logo.php?<?php echo strtotime($cfg->lastModified('staff_logo_id')); ?>" alt="osTicket &mdash; <?php echo __('Customer Support System'); ?>"/>
+        </a>
+        <p id="info" class="pull-right no-pjax text-sm order-2 md:order-2"><?php echo sprintf(__('Welcome, %s.'), '<strong>'.$thisstaff->getFirstName().'</strong>'); ?>
            <?php
             if($thisstaff->isAdmin() && !defined('ADMINPAGE')) { ?>
             | <a href="<?php echo ROOT_PATH ?>scp/admin.php" class="no-pjax"><?php echo __('Admin Panel'); ?></a>
@@ -81,10 +87,6 @@ if (osTicket::is_ie())
             | <a href="<?php echo ROOT_PATH ?>scp/profile.php"><?php echo __('Profile'); ?></a>
             | <a href="<?php echo ROOT_PATH ?>scp/logout.php?auth=<?php echo $ost->getLinkToken(); ?>" class="no-pjax"><?php echo __('Log Out'); ?></a>
         </p>
-        <a href="<?php echo ROOT_PATH ?>scp/index.php" class="no-pjax" id="logo">
-            <span class="valign-helper"></span>
-            <img src="<?php echo ROOT_PATH ?>scp/logo.php?<?php echo strtotime($cfg->lastModified('staff_logo_id')); ?>" alt="osTicket &mdash; <?php echo __('Customer Support System'); ?>"/>
-        </a>
     </div>
     <div id="pjax-container" class="<?php if ($_POST) echo 'no-pjax'; ?>">
 <?php } else {
@@ -100,9 +102,21 @@ if (osTicket::is_ie())
     } ?>
     <title><?php echo ($ost && ($title=$ost->getPageTitle()))?$title:'osTicket :: '.__('Staff Control Panel'); ?></title><?php
 } # endif X_PJAX ?>
-    <ul id="nav">
+    <div class="md:hidden py-2">
+        <button id="staff-mobile-menu-btn" class="text-gray-700 hover:text-gray-900 focus:outline-none focus:text-gray-900 border border-gray-300 rounded p-2">
+             <i class="icon-reorder icon-large"></i> <?php echo __('Menu'); ?>
+        </button>
+    </div>
+    <ul id="nav" class="hidden md:block flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
 <?php include STAFFINC_DIR . "templates/navigation.tmpl.php"; ?>
     </ul>
+    <script>
+        $(document).ready(function() {
+            $('#staff-mobile-menu-btn').click(function() {
+                $('#nav').toggleClass('hidden');
+            });
+        });
+    </script>
     <?php include STAFFINC_DIR . "templates/sub-navigation.tmpl.php"; ?>
 
         <div id="content">
