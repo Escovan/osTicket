@@ -30,33 +30,35 @@ if ($thisclient && $thisclient->isGuest()
 
 <?php } ?>
 
-<table width="800" cellpadding="1" cellspacing="0" border="0" id="ticketInfo">
+<table class="w-full" cellpadding="1" cellspacing="0" border="0" id="ticketInfo">
     <tr>
         <td colspan="2" width="100%">
-            <h1>
-                <a href="tickets.php?id=<?php echo $ticket->getId(); ?>" title="<?php echo __('Reload'); ?>"><i class="refresh icon-refresh"></i></a>
-                <b>
-                <?php $subject_field = TicketForm::getInstance()->getField('subject');
-                    echo $subject_field->display($ticket->getSubject()); ?>
-                </b>
-                <small>#<?php echo $ticket->getNumber(); ?></small>
-<div class="pull-right">
-      <a class="action-button" href="tickets.php?a=print&id=<?php
-          echo $ticket->getId(); ?>"><i class="icon-print"></i> <?php echo __('Print'); ?></a>
+            <h1 class="flex flex-col md:flex-row justify-between items-start md:items-center">
+                <div class="mb-2 md:mb-0">
+                    <a href="tickets.php?id=<?php echo $ticket->getId(); ?>" title="<?php echo __('Reload'); ?>"><i class="refresh icon-refresh"></i></a>
+                    <b>
+                    <?php $subject_field = TicketForm::getInstance()->getField('subject');
+                        echo $subject_field->display($ticket->getSubject()); ?>
+                    </b>
+                    <small>#<?php echo $ticket->getNumber(); ?></small>
+                </div>
+                <div class="flex gap-2">
+                    <a class="action-button" href="tickets.php?a=print&id=<?php
+                        echo $ticket->getId(); ?>"><i class="icon-print"></i> <?php echo __('Print'); ?></a>
 
-<?php if ($ticket->hasClientEditableFields()
-        // Only ticket owners can edit the ticket details (and other forms)
-        && $thisclient->getId() == $ticket->getUserId()) { ?>
-                <a class="action-button" href="tickets.php?a=edit&id=<?php
-                     echo $ticket->getId(); ?>"><i class="icon-edit"></i> <?php echo __('Edit'); ?></a>
-<?php } ?>
-</div>
+        <?php if ($ticket->hasClientEditableFields()
+                // Only ticket owners can edit the ticket details (and other forms)
+                && $thisclient->getId() == $ticket->getUserId()) { ?>
+                        <a class="action-button" href="tickets.php?a=edit&id=<?php
+                            echo $ticket->getId(); ?>"><i class="icon-edit"></i> <?php echo __('Edit'); ?></a>
+        <?php } ?>
+                </div>
             </h1>
         </td>
     </tr>
-    <tr>
-        <td width="50%">
-            <table class="infoTable" cellspacing="1" cellpadding="3" width="100%" border="0">
+    <tr class="flex flex-col md:flex-row">
+        <td class="w-full md:w-1/2 p-0 md:pr-2">
+            <table class="infoTable w-full" cellspacing="1" cellpadding="3" border="0">
                 <thead>
                     <tr><td class="headline" colspan="2">
                         <?php echo __('Basic Ticket Information'); ?>
@@ -76,8 +78,8 @@ if ($thisclient && $thisclient->isGuest()
                 </tr>
            </table>
        </td>
-       <td width="50%">
-           <table class="infoTable" cellspacing="1" cellpadding="3" width="100%" border="0">
+       <td class="w-full md:w-1/2 p-0 md:pl-2 mt-4 md:mt-0">
+           <table class="infoTable w-full" cellspacing="1" cellpadding="3" border="0">
                 <thead>
                     <tr><td class="headline" colspan="2">
                         <?php echo __('User Information'); ?>
@@ -175,7 +177,7 @@ if ((!$ticket->isClosed() || $ticket->isReopenable()) && !$blockReply) { ?>
         </p>
         <textarea name="<?php echo $messageField->getFormName(); ?>" id="message" cols="50" rows="9" wrap="soft"
             class="<?php if ($cfg->isRichTextEnabled()) echo 'richtext';
-                ?> draft" <?php
+                ?> draft w-full border rounded p-2" <?php
 list($draft, $attrs) = Draft::getDraftAndDataAttrs('ticket.client', $ticket->getId(), $info['message']);
 echo $attrs; ?>><?php echo $draft ?: $info['message'];
             ?></textarea>

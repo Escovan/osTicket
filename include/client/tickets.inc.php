@@ -137,15 +137,17 @@ $tickets->values(
 );
 
 ?>
-<div class="search well">
+<div class="search well p-4 bg-gray-50 rounded">
 <div class="flush-left">
 <form action="tickets.php" method="get" id="ticketSearchForm">
     <input type="hidden" name="a"  value="search">
-    <input type="text" name="keywords" size="30" value="<?php echo Format::htmlchars($settings['keywords']); ?>">
-    <input type="submit" value="<?php echo __('Search');?>">
-<div class="pull-right">
-    <?php echo __('Help Topic'); ?>:
-    <select name="topic_id" class="nowarn" onchange="javascript: this.form.submit(); ">
+    <div class="flex flex-col md:flex-row gap-2">
+        <input type="text" name="keywords" class="w-full md:w-auto px-3 py-2 border rounded" placeholder="<?php echo __('Search keywords'); ?>" value="<?php echo Format::htmlchars($settings['keywords']); ?>">
+        <input type="submit" class="px-4 py-2 bg-blue-500 text-white rounded cursor-pointer hover:bg-blue-600" value="<?php echo __('Search');?>">
+    </div>
+<div class="md:float-right mt-2 md:mt-0">
+    <span class="block md:inline mb-1 md:mb-0"><?php echo __('Help Topic'); ?>:</span>
+    <select name="topic_id" class="nowarn w-full md:w-auto border rounded px-2 py-1" onchange="javascript: this.form.submit(); ">
         <option value="">&mdash; <?php echo __('All Help Topics');?> &mdash;</option>
 <?php
 foreach (Topic::getHelpTopics(true) as $id=>$name) {
@@ -200,9 +202,9 @@ if ($closedTickets) {?>
     </small>
 </div>
 </h1>
-<table id="ticketTable" width="800" border="0" cellspacing="0" cellpadding="0">
+<table id="ticketTable" class="w-full table-auto" border="0" cellspacing="0" cellpadding="0">
     <caption><?php echo $showing; ?></caption>
-    <thead>
+    <thead class="hidden md:table-header-group">
         <tr>
             <th nowrap>
                 <a href="tickets.php?sort=ID&order=<?php echo $negorder; ?><?php echo $qstr; ?>" title="<?php echo sprintf('%s %s', __('Sort By'), __('Ticket ID')); ?>"><?php echo __('Ticket #');?>&nbsp;<i class="icon-sort"></i></a>
@@ -244,21 +246,34 @@ if ($closedTickets) {?>
             }
             $thisclient->getId() != $T['user_id'] ? $isCollab = true : $isCollab = false;
             ?>
-            <tr id="<?php echo $T['ticket_id']; ?>">
-                <td>
-                <a class="Icon <?php echo strtolower($T['source']); ?>Ticket" title="<?php echo $T['user__default_email__address']; ?>"
-                    href="tickets.php?id=<?php echo $T['ticket_id']; ?>"><?php echo $ticketNumber; ?></a>
+            <tr id="<?php echo $T['ticket_id']; ?>" class="block md:table-row border border-gray-200 md:border-none mb-4 md:mb-0 rounded p-4 md:p-0 shadow md:shadow-none bg-white md:bg-transparent">
+                <td class="block md:table-cell p-2 md:p-1 border-b md:border-none last:border-b-0">
+                    <strong class="md:hidden"><?php echo __('Ticket #'); ?>: </strong>
+                    <a class="Icon <?php echo strtolower($T['source']); ?>Ticket" title="<?php echo $T['user__default_email__address']; ?>"
+                        href="tickets.php?id=<?php echo $T['ticket_id']; ?>"><?php echo $ticketNumber; ?></a>
                 </td>
-                <td><?php echo Format::date($T['created']); ?></td>
-                <td><?php echo $status; ?></td>
-                <td>
+                <td class="block md:table-cell p-2 md:p-1 border-b md:border-none last:border-b-0">
+                    <strong class="md:hidden"><?php echo __('Date'); ?>: </strong>
+                    <?php echo Format::date($T['created']); ?>
+                </td>
+                <td class="block md:table-cell p-2 md:p-1 border-b md:border-none last:border-b-0">
+                    <strong class="md:hidden"><?php echo __('Status'); ?>: </strong>
+                    <?php echo $status; ?>
+                </td>
+                <td class="block md:table-cell p-2 md:p-1 border-b md:border-none last:border-b-0">
+                    <strong class="md:hidden"><?php echo __('Subject'); ?>: </strong>
                   <?php if ($isCollab) {?>
-                    <div style="max-height: 1.2em; max-width: 320px;" class="link truncate" href="tickets.php?id=<?php echo $T['ticket_id']; ?>"><i class="icon-group"></i> <?php echo $subject; ?></div>
+                    <span class="md:hidden inline-block truncate align-bottom" style="max-width: 200px;"><i class="icon-group"></i> <?php echo $subject; ?></span>
+                    <div style="max-height: 1.2em; max-width: 320px;" class="link truncate hidden md:block" href="tickets.php?id=<?php echo $T['ticket_id']; ?>"><i class="icon-group"></i> <?php echo $subject; ?></div>
                   <?php } else {?>
-                    <div style="max-height: 1.2em; max-width: 320px;" class="link truncate" href="tickets.php?id=<?php echo $T['ticket_id']; ?>"><?php echo $subject; ?></div>
+                    <span class="md:hidden inline-block truncate align-bottom" style="max-width: 200px;"><?php echo $subject; ?></span>
+                    <div style="max-height: 1.2em; max-width: 320px;" class="link truncate hidden md:block" href="tickets.php?id=<?php echo $T['ticket_id']; ?>"><?php echo $subject; ?></div>
                     <?php } ?>
                 </td>
-                <td><span class="truncate"><?php echo $dept; ?></span></td>
+                <td class="block md:table-cell p-2 md:p-1 border-b md:border-none last:border-b-0">
+                    <strong class="md:hidden"><?php echo __('Department'); ?>: </strong>
+                    <span class="truncate"><?php echo $dept; ?></span>
+                </td>
             </tr>
         <?php
         }

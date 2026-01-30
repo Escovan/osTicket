@@ -36,7 +36,7 @@ if ($info['topicId'] && ($topic=Topic::lookup($info['topicId']))) {
 <form id="ticketForm" method="post" action="open.php" enctype="multipart/form-data">
   <?php csrf_token(); ?>
   <input type="hidden" name="a" value="open">
-  <table width="800" cellpadding="1" cellspacing="0" border="0">
+  <table class="w-full" cellpadding="1" cellspacing="0" border="0">
     <tbody>
 <?php
         if (!$thisclient) {
@@ -60,7 +60,7 @@ if ($info['topicId'] && ($topic=Topic::lookup($info['topicId']))) {
     </td></tr>
     <tr>
         <td colspan="2">
-            <select id="topicId" name="topicId" onchange="javascript:
+            <select id="topicId" name="topicId" class="w-full md:w-auto border rounded p-2" onchange="javascript:
                     var data = $(':input[name]', '#dynamic-form').serialize();
                     $.ajax(
                       'ajax.php/form/help-topic/' + this.value,

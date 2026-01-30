@@ -1,7 +1,7 @@
 </div>
 </div>
 <?php if (!isset($_SERVER['HTTP_X_PJAX'])) { ?>
-    <div id="footer">
+    <div id="footer" class="text-center py-6 text-gray-500 text-sm">
         <?php echo __('Copyright &copy;') ?> 2006-<?php echo date('Y'); ?>&nbsp;<?php
         echo Format::htmlchars((string) $ost->company ?: 'osTicket.com'); ?>&nbsp;<?php echo __('All Rights Reserved.'); ?>
     </div>
@@ -59,6 +59,17 @@ if(is_object($thisstaff) && $thisstaff->isStaff()) { ?>
 <script type="text/javascript" src="<?php echo ROOT_PATH; ?>scp/js/jb.overflow.menu.js"></script>
 <link type="text/css" rel="stylesheet" href="<?php echo ROOT_PATH; ?>scp/css/tooltip.css">
 <script type="text/javascript">
+    $(document).ready(function() {
+        // Wrap tables for horizontal scrolling on mobile
+        if ($(window).width() < 768) {
+            $('table.list, table.dashboard-stats').each(function() {
+                if (!$(this).parent().hasClass('responsive-table-wrap')) {
+                    $(this).wrap('<div class="responsive-table-wrap"></div>');
+                }
+            });
+        }
+    });
+
     getConfig().resolve(<?php
         include INCLUDE_DIR . 'ajax.config.php';
         $api = new ConfigAjaxAPI();

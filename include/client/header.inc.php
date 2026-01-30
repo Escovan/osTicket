@@ -49,6 +49,8 @@ if (osTicket::is_ie())
     <link type="text/css" rel="stylesheet" href="<?php echo ROOT_PATH; ?>css/flags.css">
     <link type="text/css" rel="stylesheet" href="<?php echo ROOT_PATH; ?>css/rtl.css"/>
     <link type="text/css" rel="stylesheet" href="<?php echo ROOT_PATH; ?>css/select2.min.css">
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="<?php echo ASSETS_PATH; ?>css/tailwind-output.css">
     <!-- Favicons -->
     <link rel="icon" type="image/png" href="<?php echo ROOT_PATH ?>images/oscar-favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="<?php echo ROOT_PATH ?>images/oscar-favicon-16x16.png" sizes="16x16" />
@@ -87,8 +89,8 @@ if (osTicket::is_ie())
     }
     ?>
 </head>
-<body>
-    <div id="container">
+<body class="bg-gray-100">
+    <div id="container" class="w-full max-w-screen-xl mx-auto px-4 md:px-0 bg-white shadow-lg my-4 p-4 rounded-lg">
         <?php
         if($ost->getError())
             echo sprintf('<div class="error_bar">%s</div>', $ost->getError());
@@ -97,9 +99,15 @@ if (osTicket::is_ie())
         elseif($ost->getNotice())
             echo sprintf('<div class="notice_bar">%s</div>', $ost->getNotice());
         ?>
-        <div id="header">
-            <div class="pull-right flush-right">
-            <p>
+        <div id="header" class="flex flex-col md:flex-row items-center justify-between py-4 border-b border-gray-200">
+            <a class="logo mb-4 md:mb-0 order-1 md:order-1" id="logo" href="<?php echo ROOT_PATH; ?>index.php"
+            title="<?php echo __('Support Center'); ?>">
+                <span class="valign-helper"></span>
+                <img src="<?php echo ROOT_PATH; ?>logo.php" border=0 alt="<?php
+                echo $ost->getConfig()->getTitle(); ?>">
+            </a>
+            <div class="md:text-right order-2 md:order-2">
+            <p class="text-sm text-gray-600 mb-2">
              <?php
                 if ($thisclient && is_object($thisclient) && $thisclient->isValid()
                     && !$thisclient->isGuest()) {
@@ -140,24 +148,30 @@ if (($all_langs = Internationalization::getConfiguredSystemLanguages())
 } ?>
             </p>
             </div>
-            <a class="pull-left" id="logo" href="<?php echo ROOT_PATH; ?>index.php"
-            title="<?php echo __('Support Center'); ?>">
-                <span class="valign-helper"></span>
-                <img src="<?php echo ROOT_PATH; ?>logo.php" border=0 alt="<?php
-                echo $ost->getConfig()->getTitle(); ?>">
-            </a>
         </div>
         <div class="clear"></div>
         <?php
         if($nav){ ?>
-        <ul id="nav" class="flush-left">
+        <div class="md:hidden py-2">
+            <button id="mobile-menu-btn" class="text-gray-700 hover:text-gray-900 focus:outline-none focus:text-gray-900 border border-gray-300 rounded p-2">
+                 <i class="icon-reorder icon-large"></i> <?php echo __('Menu'); ?>
+            </button>
+        </div>
+        <ul id="nav" class="flush-left hidden md:block flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
             <?php
             if($nav && ($navs=$nav->getNavLinks()) && is_array($navs)){
                 foreach($navs as $name =>$nav) {
-                    echo sprintf('<li><a class="%s %s" href="%s">%s</a></li>%s',$nav['active']?'active':'',$name,(ROOT_PATH.$nav['href']),$nav['desc'],"\n");
+                    echo sprintf('<li class="md:inline-block"><a class="%s %s block md:inline-block px-4 py-2 rounded hover:bg-gray-100" href="%s">%s</a></li>%s',$nav['active']?'active':'',$name,(ROOT_PATH.$nav['href']),$nav['desc'],"\n");
                 }
             } ?>
         </ul>
+        <script>
+            $(document).ready(function() {
+                $('#mobile-menu-btn').click(function() {
+                    $('#nav').toggleClass('hidden');
+                });
+            });
+        </script>
         <?php
         }else{ ?>
          <hr>

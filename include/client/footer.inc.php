@@ -1,9 +1,9 @@
         </div>
     </div>
-    <div id="footer">
+    <div id="footer" class="text-center py-6 text-gray-500 text-sm">
         <p><?php echo __('Copyright &copy;'); ?> <?php echo date('Y'); ?> <?php
         echo Format::htmlchars((string) $ost->company ?: 'osTicket.com'); ?> - <?php echo __('All rights reserved.'); ?></p>
-        <a id="poweredBy" href="https://osticket.com" target="_blank"><?php echo __('Helpdesk software - powered by osTicket'); ?></a>
+        <a id="poweredBy" href="https://osticket.com" target="_blank" class="text-blue-500 hover:text-blue-700"><?php echo __('Helpdesk software - powered by osTicket'); ?></a>
     </div>
 <div id="overlay"></div>
 <div id="loading">
