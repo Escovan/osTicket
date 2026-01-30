@@ -65,7 +65,7 @@ if ($_POST)
         <h2><?php echo __('Open a New Ticket');?></h2>
     </div>
 </div>
- <table class="form_table fixed" width="940" border="0" cellspacing="0" cellpadding="2">
+ <table class="form_table w-full" border="0" cellspacing="0" cellpadding="2">
     <thead>
     <!-- This looks empty - but beware, with fixed table layout, the user
          agent will usually only consult the cells in the first row to
@@ -82,7 +82,9 @@ if ($_POST)
         </tr>
               <?php
               if ($user) { ?>
-                  <tr><td><?php echo __('User'); ?>:</td><td>
+                  <tr class="block md:table-row">
+                    <td class="block md:table-cell md:w-[160px] font-bold md:font-normal"><?php echo __('User'); ?>:</td>
+                    <td class="block md:table-cell">
                     <div id="user-info">
                       <input type="hidden" name="uid" id="uid" value="<?php echo $user->getId(); ?>" />
                       <?php if ($thisstaff->hasPerm(User::PERM_EDIT)) { ?>
@@ -117,9 +119,9 @@ if ($_POST)
               <?php
             } else { //Fallback: Just ask for email and name
               ?>
-              <tr id="userRow">
-                <td width="120"><?php echo __('User'); ?>:</td>
-                <td>
+              <tr id="userRow" class="block md:table-row">
+                <td class="block md:table-cell md:w-[160px] font-bold md:font-normal"><?php echo __('User'); ?>:</td>
+                <td class="block md:table-cell">
                   <span>
                     <select class="userSelection" name="name" id="user-name"
                     data-placeholder="<?php echo __('Select User'); ?>">
@@ -146,9 +148,9 @@ if ($_POST)
             </tr>
             <?php
           } ?>
-          <tr id="ccRow">
-            <td width="160"><?php echo __('Cc'); ?>:</td>
-            <td>
+          <tr id="ccRow" class="block md:table-row">
+            <td class="block md:table-cell md:w-[160px] font-bold md:font-normal"><?php echo __('Cc'); ?>:</td>
+            <td class="block md:table-cell">
               <span>
                 <select class="collabSelections" name="ccs[]" id="cc_users_open" multiple="multiple"
                 ref="tags" data-placeholder="<?php echo __('Select Contacts'); ?>">
@@ -170,11 +172,11 @@ if ($_POST)
         <?php
         if ($cfg->notifyONNewStaffTicket()) {
          ?>
-        <tr class="no_border">
-          <td>
+        <tr class="no_border block md:table-row">
+          <td class="block md:table-cell md:w-[160px] font-bold md:font-normal">
             <?php echo __('Ticket Notice');?>:
           </td>
-          <td>
+          <td class="block md:table-cell">
             <select id="reply-to" name="reply-to">
               <option value="all"><?php echo __('Alert All'); ?></option>
               <option value="user"><?php echo __('Alert to User'); ?></option>
@@ -190,11 +192,11 @@ if ($_POST)
                 <em><strong><?php echo __('Ticket Information and Options');?></strong>:</em>
             </th>
         </tr>
-        <tr>
-            <td width="160" class="required">
+        <tr class="block md:table-row">
+            <td class="block md:table-cell md:w-[160px] font-bold md:font-normal required">
                 <?php echo __('Ticket Source');?>:
             </td>
-            <td>
+            <td class="block md:table-cell">
                 <select name="source">
                     <?php
                     $source = $info['source'] ?: 'Phone';
@@ -210,11 +212,11 @@ if ($_POST)
                 &nbsp;<font class="error"><b>*</b>&nbsp;<?php echo $errors['source']; ?></font>
             </td>
         </tr>
-        <tr>
-            <td width="160" class="required">
+        <tr class="block md:table-row">
+            <td class="block md:table-cell md:w-[160px] font-bold md:font-normal required">
                 <?php echo __('Help Topic'); ?>:
             </td>
-            <td>
+            <td class="block md:table-cell">
                 <select name="topicId" onchange="javascript:
                         var data = $(':input[name]', '#dynamic-form').serialize();
                         $.ajax(
@@ -249,11 +251,11 @@ if ($_POST)
                 &nbsp;<font class="error"><b>*</b>&nbsp;<?php echo $errors['topicId']; ?></font>
             </td>
         </tr>
-        <tr>
-            <td width="160">
+        <tr class="block md:table-row">
+            <td class="block md:table-cell md:w-[160px] font-bold md:font-normal">
                 <?php echo __('Department'); ?>:
             </td>
-            <td>
+            <td class="block md:table-cell">
                 <select name="deptId">
                     <option value="" selected >&mdash; <?php echo __('Select Department'); ?>&mdash;</option>
                     <?php
@@ -275,11 +277,11 @@ if ($_POST)
             </td>
         </tr>
 
-         <tr>
-            <td width="160">
+         <tr class="block md:table-row">
+            <td class="block md:table-cell md:w-[160px] font-bold md:font-normal">
                 <?php echo __('SLA Plan');?>:
             </td>
-            <td>
+            <td class="block md:table-cell">
                 <select name="slaId">
                     <option value="0" selected="selected" >&mdash; <?php echo __('System Default');?> &mdash;</option>
                     <?php
@@ -295,11 +297,11 @@ if ($_POST)
             </td>
          </tr>
 
-         <tr>
-            <td width="160">
+         <tr class="block md:table-row">
+            <td class="block md:table-cell md:w-[160px] font-bold md:font-normal">
                 <?php echo __('Due Date');?>:
             </td>
-            <td>
+            <td class="block md:table-cell">
                 <?php
                 $duedateField = Ticket::duedateField('duedate', $info['duedate']);
                 $duedateField->render();
@@ -312,9 +314,9 @@ if ($_POST)
 
         <?php
         if($thisstaff->hasPerm(Ticket::PERM_ASSIGN, false)) { ?>
-        <tr>
-            <td width="160"><?php echo __('Assign To');?>:</td>
-            <td>
+        <tr class="block md:table-row">
+            <td class="block md:table-cell md:w-[160px] font-bold md:font-normal"><?php echo __('Assign To');?>:</td>
+            <td class="block md:table-cell">
                 <select id="assignId" name="assignId">
                     <option value="0" selected="selected">&mdash; <?php echo __('Select an Agent OR a Team');?> &mdash;</option>
                     <?php
@@ -365,8 +367,8 @@ if ($_POST)
                 <em><strong><?php echo __('Response');?></strong>: <?php echo __('Optional response to the above issue.');?></em>
             </th>
         </tr>
-        <tr>
-            <td colspan=2>
+        <tr class="block md:table-row">
+            <td colspan=2 class="block md:table-cell">
             <?php
             if($cfg->isCannedResponseEnabled() && ($cannedResponses=Canned::getCannedResponses())) {
                 ?>
@@ -406,9 +408,9 @@ print $response_form->getField('attachments')->render();
                     </div>
 
                 <table border="0" cellspacing="0" cellpadding="2" width="100%">
-            <tr>
-                <td width="100"><?php echo __('Ticket Status');?>:</td>
-                <td>
+            <tr class="block md:table-row">
+                <td class="block md:table-cell md:w-[100px] font-bold md:font-normal"><?php echo __('Ticket Status');?>:</td>
+                <td class="block md:table-cell">
                     <select name="statusId">
                     <?php
                     $statusId = $info['statusId'] ?: $cfg->getDefaultTicketStatusId();
@@ -429,9 +431,9 @@ print $response_form->getField('attachments')->render();
                     </select>
                 </td>
             </tr>
-             <tr>
-                <td width="100"><?php echo __('Signature');?>:</td>
-                <td>
+             <tr class="block md:table-row">
+                <td class="block md:table-cell md:w-[100px] font-bold md:font-normal"><?php echo __('Signature');?>:</td>
+                <td class="block md:table-cell">
                     <?php
                     $info['signature']=$info['signature']?$info['signature']:$thisstaff->getDefaultSignatureType();
                     ?>
@@ -458,8 +460,8 @@ print $response_form->getField('attachments')->render();
                 <font class="error">&nbsp;<?php echo $errors['note']; ?></font></em>
             </th>
         </tr>
-        <tr>
-            <td colspan=2>
+        <tr class="block md:table-row">
+            <td colspan=2 class="block md:table-cell">
                 <textarea
                     class="<?php if ($cfg->isRichTextEnabled()) echo 'richtext';
                         ?> draft draft-delete"

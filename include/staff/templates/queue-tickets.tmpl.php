@@ -227,8 +227,8 @@ if ($queue->id > 0 && $queue->isOwner($thisstaff)) { ?>
  <input type="hidden" name="a" value="mass_process" >
  <input type="hidden" name="do" id="action" value="" >
 
-<table class="list queue tickets" border="0" cellspacing="1" cellpadding="2" width="940">
-  <thead>
+<table class="list queue tickets w-full table-auto" border="0" cellspacing="1" cellpadding="2">
+  <thead class="hidden md:table-header-group">
     <tr>
 <?php
 $canManageTickets = $thisstaff->canManageTickets();
@@ -256,19 +256,20 @@ foreach ($columns as $C) {
   <tbody>
 <?php
 foreach ($tickets as $T) {
-    echo '<tr>';
+    echo '<tr class="block md:table-row border border-gray-200 md:border-none mb-4 md:mb-0 rounded p-4 md:p-0 shadow md:shadow-none bg-white md:bg-transparent relative">';
     if ($canManageTickets) { ?>
-        <td><input type="checkbox" class="ckb" name="tids[]"
+        <td class="block md:table-cell p-2 md:p-1 md:w-4 absolute top-2 right-2 md:static"><input type="checkbox" class="ckb" name="tids[]"
             value="<?php echo $T['ticket_id']; ?>" /></td>
 <?php
     }
     foreach ($columns as $C) {
         list($contents, $styles) = $C->render($T);
+        $heading = Format::htmlchars($C->getLocalHeading());
         if ($style = $styles ? 'style="'.$styles.'"' : '') {
-            echo "<td $style><div $style>$contents</div></td>";
+            echo "<td $style class='block md:table-cell p-2 md:p-1 border-b md:border-none last:border-b-0'><span class='md:hidden font-bold mr-2 text-gray-600'>$heading:</span><div $style class='inline-block'>$contents</div></td>";
         }
         else {
-            echo "<td>$contents</td>";
+            echo "<td class='block md:table-cell p-2 md:p-1 border-b md:border-none last:border-b-0'><span class='md:hidden font-bold mr-2 text-gray-600'>$heading:</span>$contents</td>";
         }
     }
     echo '</tr>';

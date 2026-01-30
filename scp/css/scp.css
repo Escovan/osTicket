@@ -126,7 +126,8 @@ a time {
 
 
 #container {
-    width:960px;
+    max-width:960px;
+    width: 100%;
     margin:0 auto 20px auto;
 }
 
@@ -725,7 +726,8 @@ a time {
 .jb-overflowmenu {
     position: relative;
     height:35px;
-    width: 960px;
+    max-width: 960px;
+    width: 100%;
 }
 
 
@@ -2227,7 +2229,8 @@ time.faq {
 .dialog {
     position:fixed;
     padding:1em;
-    width:500px;
+    width:90%;
+    max-width:500px;
     height:250px;
     height:auto !important;
     background:#f8f8f8;
@@ -2244,19 +2247,23 @@ time.faq {
     background-color:#f8f8f8!IMPORTANT;
 }
 .dialog#popup {
-    width:650px;
+    width:90%;
+    max-width:650px;
 }
 
 .dialog.size-normal {
-    width:650px !important;
+    width:90% !important;
+    max-width:650px !important;
 }
 
 .dialog.size-large {
-    width:750px !important;
+    width:90% !important;
+    max-width:750px !important;
 }
 
 .dialog.size-xl {
-    width:940px !important;
+    width:90% !important;
+    max-width:940px !important;
 }
 
 .dialog #popup-loading {

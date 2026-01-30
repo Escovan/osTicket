@@ -67,8 +67,8 @@ if($ticket->isOverdue())
 <div>
     <div id="msg_notice" style="display: none;"><span id="msg-txt"><?php echo $msg ?: ''; ?></span></div>
     <div class="sticky bar">
-       <div class="content">
-        <div class="pull-right flush-right">
+       <div class="content flex flex-col-reverse md:block">
+        <div class="md:pull-right md:flush-right mt-2 md:mt-0 flex flex-wrap gap-1 justify-end">
             <?php
             if ($thisstaff->hasPerm(Email::PERM_BANLIST)
                     || $role->hasPerm(Ticket::PERM_EDIT)
@@ -313,9 +313,9 @@ if($ticket->isOverdue())
             : Format::htmlchars($ticket->getSubject()); ?>
     </h3>
 </div>
-<table class="ticket_info" cellspacing="0" cellpadding="0" width="940" border="0">
-    <tr>
-        <td width="50%">
+<table class="ticket_info w-full" cellspacing="0" cellpadding="0" border="0">
+    <tr class="block md:table-row">
+        <td class="block md:table-cell w-full md:w-1/2 align-top">
             <table border="0" cellspacing="0" cellpadding="4" width="100%">
                 <tr>
                     <th width="100"><?php echo __('Status');?>:</th>
@@ -374,7 +374,7 @@ if($ticket->isOverdue())
                 </tr>
             </table>
         </td>
-        <td width="50%" style="vertical-align:top">
+        <td class="block md:table-cell w-full md:w-1/2 align-top">
             <table border="0" cellspacing="0" cellpadding="4" width="100%">
                 <tr>
                     <th width="100"><?php echo __('User'); ?>:</th>
@@ -512,9 +512,10 @@ if($ticket->isOverdue())
     </tr>
 </table>
 <br>
-<table class="ticket_info" cellspacing="0" cellpadding="0" width="940" border="0">
-    <tr>
-        <td width="50%">
+<table class="ticket_info w-full" cellspacing="0" cellpadding="0" border="0">
+    <tr class="block md:table-row">
+        <td class="block md:table-cell w-full md:w-1/2 align-top">
+        <td class="block md:table-cell w-full md:w-1/2 align-top">
             <table cellspacing="0" cellpadding="4" width="100%" border="0">
                 <?php
                 if($ticket->isOpen()) { ?>
@@ -666,7 +667,7 @@ foreach (DynamicFormEntry::forTicket($ticket->getId()) as $form) {
     if (count($displayed) == 0)
         continue;
     ?>
-    <table class="ticket_info custom-data" cellspacing="0" cellpadding="0" width="940" border="0">
+    <table class="ticket_info custom-data w-full" cellspacing="0" cellpadding="0" border="0">
     <thead>
         <th colspan="2"><?php echo Format::htmlchars($form->getTitle()); ?></th>
     </thead>
@@ -686,9 +687,9 @@ foreach (DynamicFormEntry::forTicket($ticket->getId()) as $form) {
         $isFile = ($field instanceof FileUploadField);
         $url = "#tickets/".$ticket->getId()."/field/".$id;
 ?>
-        <tr>
-            <td width="200"><?php echo Format::htmlchars($label); ?>:</td>
-            <td id="<?php echo sprintf('inline-answer-%s', $field->getId()); ?>">
+        <tr class="block md:table-row">
+            <td class="block md:table-cell w-full md:w-[200px] font-bold md:font-normal"><?php echo Format::htmlchars($label); ?>:</td>
+            <td class="block md:table-cell w-full" id="<?php echo sprintf('inline-answer-%s', $field->getId()); ?>">
             <?php if ($role->hasPerm(Ticket::PERM_EDIT)
                     && $field->isEditableToStaff()) {
                     $isEmpty = strpos($v, 'Empty') || ($v == '');
@@ -735,7 +736,7 @@ foreach (DynamicFormEntry::forTicket($ticket->getId()) as $form) {
 <?php
 $tcount = $ticket->getThreadEntries($types) ? $ticket->getThreadEntries($types)->count() : 0;
 ?>
-<ul  class="tabs clean threads" id="ticket_tabs" >
+<ul  class="tabs clean threads overflow-x-auto whitespace-nowrap" id="ticket_tabs" >
     <li class="active"><a id="ticket-thread-tab" href="#ticket_thread"><?php
         echo sprintf(__('Ticket Thread (%d)'), $tcount); ?></a></li>
     <li><a id="ticket-tasks-tab" href="#tasks"
@@ -822,15 +823,15 @@ if ($errors['err'] && isset($_POST['a'])) {
         <table style="width:100%" border="0" cellspacing="0" cellpadding="3">
             <?php
             if ($errors['reply']) {?>
-            <tr><td width="120">&nbsp;</td><td class="error"><?php echo $errors['reply']; ?>&nbsp;</td></tr>
+            <tr class="block md:table-row"><td class="block md:table-cell md:w-[120px]">&nbsp;</td><td class="error block md:table-cell"><?php echo $errors['reply']; ?>&nbsp;</td></tr>
             <?php
             }?>
            <tbody id="to_sec">
-           <tr>
-               <td width="120">
+           <tr class="block md:table-row">
+               <td class="block md:table-cell md:w-[120px]">
                    <label><strong><?php echo __('From'); ?>:</strong></label>
                </td>
-               <td>
+               <td class="block md:table-cell">
                    <select id="from_email_id" name="from_email_id">
                      <?php
                      // Department email (default).
@@ -862,11 +863,11 @@ if ($errors['err'] && isset($_POST['a'])) {
            </tr>
             </tbody>
             <tbody id="recipients">
-             <tr id="user-row">
-                <td width="120">
+             <tr id="user-row" class="block md:table-row">
+                <td class="block md:table-cell md:w-[120px]">
                     <label><strong><?php echo __('Recipients'); ?>:</strong></label>
                 </td>
-                <td><a href="#tickets/<?php echo $ticket->getId(); ?>/user"
+                <td class="block md:table-cell"><a href="#tickets/<?php echo $ticket->getId(); ?>/user"
                     onclick="javascript:
                         $.userLookup('ajax.php/tickets/<?php echo $ticket->getId(); ?>/user',
                                 function (user) {
@@ -878,8 +879,8 @@ if ($errors['err'] && isset($_POST['a'])) {
                     ?></span></a>
                 </td>
               </tr>
-               <tr><td>&nbsp;</td>
-                   <td>
+               <tr class="block md:table-row"><td class="hidden md:table-cell">&nbsp;</td>
+                   <td class="block md:table-cell">
                    <div style="margin-bottom:2px;">
                     <?php
                     if ($ticket->getThread()->getNumCollaborators())
@@ -965,11 +966,11 @@ if ($errors['err'] && isset($_POST['a'])) {
                  </div>
                  </td>
              </tr>
-             <tr>
-                <td width="120">
+             <tr class="block md:table-row">
+                <td class="block md:table-cell md:w-[120px]">
                     <label><?php echo __('Reply To'); ?>:</label>
                 </td>
-                <td>
+                <td class="block md:table-cell">
                     <?php
                     // Supported Reply Types
                     $replyTypes = array(
@@ -1000,12 +1001,12 @@ if ($errors['err'] && isset($_POST['a'])) {
              </tr>
             </tbody>
             <tbody id="resp_sec">
-            <tr><td colspan="2">&nbsp;</td></tr>
-            <tr>
-                <td width="120" style="vertical-align:top">
+            <tr class="hidden md:table-row"><td colspan="2">&nbsp;</td></tr>
+            <tr class="block md:table-row">
+                <td class="block md:table-cell md:w-[120px]" style="vertical-align:top">
                     <label><strong><?php echo __('Response');?>:</strong></label>
                 </td>
-                <td>
+                <td class="block md:table-cell">
                 <?php
                 if ($errors['response'])
                     echo sprintf('<div class="error">%s</div>',
@@ -1028,7 +1029,7 @@ if ($errors['err'] && isset($_POST['a'])) {
                     </select>
                     </div>
                     </td></tr>
-                    <tr><td colspan="2">
+                    <tr class="block md:table-row"><td colspan="2" class="block md:table-cell">
                 <?php } # endif (canned-resonse-enabled)
                     $signature = '';
                     switch ($thisstaff->getDefaultSignatureType()) {
@@ -1062,11 +1063,11 @@ if ($errors['err'] && isset($_POST['a'])) {
                 </div>
                 </td>
             </tr>
-            <tr>
-                <td width="120">
+            <tr class="block md:table-row">
+                <td class="block md:table-cell md:w-[120px]">
                     <label for="signature" class="left"><?php echo __('Signature');?>:</label>
                 </td>
-                <td>
+                <td class="block md:table-cell">
                     <?php
                     $info['signature']=$info['signature']?$info['signature']:$thisstaff->getDefaultSignatureType();
                     ?>
@@ -1086,11 +1087,11 @@ if ($errors['err'] && isset($_POST['a'])) {
                     } ?>
                 </td>
             </tr>
-            <tr>
-                <td width="120" style="vertical-align:top">
+            <tr class="block md:table-row">
+                <td class="block md:table-cell md:w-[120px]" style="vertical-align:top">
                     <label><strong><?php echo __('Ticket Status');?>:</strong></label>
                 </td>
-                <td>
+                <td class="block md:table-cell">
                     <?php
                     $outstanding = false;
                     if ($role->hasPerm(Ticket::PERM_CLOSE)
@@ -1146,17 +1147,17 @@ if ($errors['err'] && isset($_POST['a'])) {
         <table width="100%" border="0" cellspacing="0" cellpadding="3">
             <?php
             if($errors['postnote']) {?>
-            <tr>
-                <td width="120">&nbsp;</td>
-                <td class="error"><?php echo $errors['postnote']; ?></td>
+            <tr class="block md:table-row">
+                <td class="block md:table-cell md:w-[120px]">&nbsp;</td>
+                <td class="error block md:table-cell"><?php echo $errors['postnote']; ?></td>
             </tr>
             <?php
             } ?>
-            <tr>
-                <td width="120" style="vertical-align:top">
+            <tr class="block md:table-row">
+                <td class="block md:table-cell md:w-[120px]" style="vertical-align:top">
                     <label><strong><?php echo __('Internal Note'); ?>:</strong><span class='error'>&nbsp;*</span></label>
                 </td>
-                <td>
+                <td class="block md:table-cell">
                     <div>
                         <div class="faded" style="padding-left:0.15em"><?php
                         echo __('Note title - summary of the note (optional)'); ?></div>
@@ -1182,12 +1183,12 @@ if ($errors['err'] && isset($_POST['a'])) {
                 </div>
                 </td>
             </tr>
-            <tr><td colspan="2">&nbsp;</td></tr>
-            <tr>
-                <td width="120">
+            <tr class="hidden md:table-row"><td colspan="2">&nbsp;</td></tr>
+            <tr class="block md:table-row">
+                <td class="block md:table-cell md:w-[120px]">
                     <label><?php echo __('Ticket Status');?>:</label>
                 </td>
-                <td>
+                <td class="block md:table-cell">
                     <div class="faded"></div>
                     <select name="note_status_id">
                         <?php
