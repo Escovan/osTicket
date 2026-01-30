@@ -46,10 +46,14 @@ if ($info['topicId'] && ($topic=Topic::lookup($info['topicId']))) {
         }
         else { ?>
             <tr><td colspan="2"><hr /></td></tr>
-        <tr><td><?php echo __('Email'); ?>:</td><td><?php
-            echo $thisclient->getEmail(); ?></td></tr>
-        <tr><td><?php echo __('Client'); ?>:</td><td><?php
-            echo Format::htmlchars($thisclient->getName()); ?></td></tr>
+        <tr class="block md:table-row">
+            <td class="block md:table-cell font-bold md:font-normal"><?php echo __('Email'); ?>:</td>
+            <td class="block md:table-cell"><?php echo $thisclient->getEmail(); ?></td>
+        </tr>
+        <tr class="block md:table-row">
+            <td class="block md:table-cell font-bold md:font-normal"><?php echo __('Client'); ?>:</td>
+            <td class="block md:table-cell"><?php echo Format::htmlchars($thisclient->getName()); ?></td>
+        </tr>
         <?php } ?>
     </tbody>
     <tbody>
@@ -98,13 +102,14 @@ if ($info['topicId'] && ($topic=Topic::lookup($info['topicId']))) {
         if($_POST && $errors && !$errors['captcha'])
             $errors['captcha']=__('Please re-enter the text again');
         ?>
-    <tr class="captchaRow">
-        <td class="required"><?php echo __('CAPTCHA Text');?>:</td>
-        <td>
-            <span class="captcha"><img src="captcha.php" border="0" align="left"></span>
-            &nbsp;&nbsp;
-            <input id="captcha" type="text" name="captcha" size="6" autocomplete="off">
-            <em><?php echo __('Enter the text shown on the image.');?></em>
+    <tr class="captchaRow block md:table-row">
+        <td class="required block md:table-cell mb-2 md:mb-0"><?php echo __('CAPTCHA Text');?>:</td>
+        <td class="block md:table-cell">
+            <div class="flex flex-col md:flex-row items-start md:items-center gap-2">
+                <span class="captcha"><img src="captcha.php" border="0" align="left"></span>
+                <input id="captcha" type="text" name="captcha" size="6" autocomplete="off" class="border rounded p-1">
+            </div>
+            <em class="block mt-1"><?php echo __('Enter the text shown on the image.');?></em>
             <font class="error">*&nbsp;<?php echo $errors['captcha']; ?></font>
         </td>
     </tr>

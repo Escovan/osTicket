@@ -172,36 +172,38 @@ foreach (Topic::getHelpTopics(true) as $id=>$name) {
 </div>
 
 
-<h1 style="margin:10px 0">
-    <a href="<?php echo Http::refresh_url(); ?>"
-        ><i class="refresh icon-refresh"></i>
-    <?php echo __('Tickets'); ?>
-    </a>
+<div class="flex flex-col md:flex-row justify-between items-center my-4">
+    <h1 class="m-0">
+        <a href="<?php echo Http::refresh_url(); ?>"
+            ><i class="refresh icon-refresh"></i>
+        <?php echo __('Tickets'); ?>
+        </a>
+    </h1>
 
-<div class="pull-right states">
-    <small>
-<?php if ($openTickets) { ?>
-    <i class="icon-file-alt"></i>
-    <a class="state <?php if ($status == 'open') echo 'active'; ?>"
-        href="?<?php echo Http::build_query(array('a' => 'search', 'status' => 'open')); ?>">
-    <?php echo __('Open'); if ($openTickets > 0) echo sprintf(' (%d)', $openTickets); ?>
-    </a>
-    <?php if ($closedTickets) { ?>
-    &nbsp;
-    <span style="color:lightgray">|</span>
-    <?php }
-}
-if ($closedTickets) {?>
-    &nbsp;
-    <i class="icon-file-text"></i>
-    <a class="state <?php if ($status == 'closed') echo 'active'; ?>"
-        href="?<?php echo Http::build_query(array('a' => 'search', 'status' => 'closed')); ?>">
-    <?php echo __('Closed'); if ($closedTickets > 0) echo sprintf(' (%d)', $closedTickets); ?>
-    </a>
-<?php } ?>
-    </small>
+    <div class="states mt-2 md:mt-0">
+        <small>
+    <?php if ($openTickets) { ?>
+        <i class="icon-file-alt"></i>
+        <a class="state <?php if ($status == 'open') echo 'active'; ?>"
+            href="?<?php echo Http::build_query(array('a' => 'search', 'status' => 'open')); ?>">
+        <?php echo __('Open'); if ($openTickets > 0) echo sprintf(' (%d)', $openTickets); ?>
+        </a>
+        <?php if ($closedTickets) { ?>
+        &nbsp;
+        <span style="color:lightgray">|</span>
+        <?php }
+    }
+    if ($closedTickets) {?>
+        &nbsp;
+        <i class="icon-file-text"></i>
+        <a class="state <?php if ($status == 'closed') echo 'active'; ?>"
+            href="?<?php echo Http::build_query(array('a' => 'search', 'status' => 'closed')); ?>">
+        <?php echo __('Closed'); if ($closedTickets > 0) echo sprintf(' (%d)', $closedTickets); ?>
+        </a>
+    <?php } ?>
+        </small>
+    </div>
 </div>
-</h1>
 <table id="ticketTable" class="w-full table-auto" border="0" cellspacing="0" cellpadding="0">
     <caption><?php echo $showing; ?></caption>
     <thead class="hidden md:table-header-group">
@@ -263,10 +265,10 @@ if ($closedTickets) {?>
                 <td class="block md:table-cell p-2 md:p-1 border-b md:border-none last:border-b-0">
                     <strong class="md:hidden"><?php echo __('Subject'); ?>: </strong>
                   <?php if ($isCollab) {?>
-                    <span class="md:hidden inline-block truncate align-bottom" style="max-width: 200px;"><i class="icon-group"></i> <?php echo $subject; ?></span>
+                    <span class="md:hidden block w-full truncate"><i class="icon-group"></i> <?php echo $subject; ?></span>
                     <div style="max-height: 1.2em; max-width: 320px;" class="link truncate hidden md:block" href="tickets.php?id=<?php echo $T['ticket_id']; ?>"><i class="icon-group"></i> <?php echo $subject; ?></div>
                   <?php } else {?>
-                    <span class="md:hidden inline-block truncate align-bottom" style="max-width: 200px;"><?php echo $subject; ?></span>
+                    <span class="md:hidden block w-full truncate"><?php echo $subject; ?></span>
                     <div style="max-height: 1.2em; max-width: 320px;" class="link truncate hidden md:block" href="tickets.php?id=<?php echo $T['ticket_id']; ?>"><?php echo $subject; ?></div>
                     <?php } ?>
                 </td>

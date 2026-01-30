@@ -54,16 +54,16 @@ if (isset($options['entry']) && $options['mode'] == 'edit') { ?>
             // Not connected to a DynamicFormField
         }
         ?>
-        <tr><?php if ($field->isBlockLevel()) { ?>
-                <td colspan="2">
+        <tr class="block md:table-row"><?php if ($field->isBlockLevel()) { ?>
+                <td colspan="2" class="block md:table-cell">
                 <?php
             }
             else { ?>
-                <td class="multi-line <?php if ($field->isRequiredForStaff() || $field->isRequiredForClose()) echo 'required';
+                <td class="block md:table-cell multi-line <?php if ($field->isRequiredForStaff() || $field->isRequiredForClose()) echo 'required';
                 ?>" style="min-width:120px;" <?php if ($options['width'])
                     echo "width=\"{$options['width']}\""; ?>>
                 <?php echo Format::htmlchars($field->getLocal('label')); ?>:</td>
-                <td><div style="position:relative"><?php
+                <td class="block md:table-cell"><div style="position:relative"><?php
             }
 
             if ($field->isEditableToStaff() || $isCreate) {

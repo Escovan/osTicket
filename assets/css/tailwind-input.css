@@ -3,15 +3,6 @@
 @tailwind utilities;
 
 @layer utilities {
-    #ticketForm input[type="text"],
-    #ticketForm input[type="password"],
-    #ticketForm input[type="email"],
-    #ticketForm input[type="tel"],
-    #ticketForm select,
-    #ticketForm textarea {
-        @apply w-full md:w-auto max-w-full border rounded p-2 border-gray-300;
-    }
-
     #ticketForm textarea {
         @apply w-full;
     }
